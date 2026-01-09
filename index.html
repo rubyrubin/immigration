@@ -1,42 +1,183 @@
 <!doctype html>
 <html lang="en">
+<head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NZ Visa Pathway Quiz</title>
+<title>Lighthouse Brokers — NZ Visa Pathway Quiz</title>
 
 <style>
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#fff;color:#111}
-  .wrap{max-width:860px;margin:0 auto;padding:18px}
-  .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
-  .title{font-weight:900;font-size:18px}
-  .sub{color:#666;font-size:12.5px;margin-top:6px;line-height:1.35}
-  .pill{border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;color:#666;font-size:12px;white-space:nowrap}
-  .card{border:1px solid #e5e7eb;background:#f7f8fb;border-radius:14px;padding:16px}
-  #q{font-size:17px;font-weight:800;line-height:1.35;margin:0 0 12px 0}
-  #btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-  button{padding:12px 14px;border-radius:10px;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-weight:800;min-width:120px}
-  .yes{border-color:#111;background:#111;color:#fff}
-  .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
-  #meta{color:#666;font-size:12.5px}
+  :root{
+    --blue:#0B4AA2;
+    --blue2:#1F6FEB;
+    --bg:#ffffff;
+    --card:#f7f8fb;
+    --text:#0f172a;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --shadow: 0 1px 2px rgba(0,0,0,.06);
+  }
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:18px}
+  .top{
+    display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px
+  }
+  .brand{display:flex;gap:12px;align-items:center}
+  .logoBox{
+    width:40px;height:40px;border-radius:10px;background:var(--blue);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow: var(--shadow);
+  }
+  .brandText .title{font-weight:900;font-size:18px;line-height:1.1;margin:0}
+  .brandText .sub{
+    color:var(--muted);font-size:12.5px;margin-top:6px;line-height:1.35;max-width:80ch
+  }
+  .pill{
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:6px 10px;
+    color:var(--muted);
+    font-size:12px;
+    white-space:nowrap;
+    background:#fff;
+    box-shadow: var(--shadow);
+  }
+  .card{
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:14px;
+    padding:16px;
+    box-shadow: var(--shadow);
+  }
+  #q{
+    font-size:17px;
+    font-weight:800;
+    line-height:1.35;
+    margin:0 0 12px 0
+  }
+  #btns{
+    display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px
+  }
+  button{
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #d1d5db;
+    background:#fff;
+    cursor:pointer;
+    font-weight:800;
+    min-width:120px;
+  }
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .choice.active{
+    border-color:#111;
+    background:#111;
+    color:#fff;
+  }
+
+  .row{
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px
+  }
+  #meta{color:var(--muted);font-size:12.5px}
   #trail{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
-  .tag{border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:4px 8px;color:#666;font-size:12px}
+  .tag{
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:999px;
+    padding:4px 8px;
+    color:var(--muted);
+    font-size:12px;
+  }
   #out{margin-top:12px}
   ul{margin:10px 0 0 18px;padding:0}
   li{margin:6px 0;line-height:1.35}
-  a{color:#2563eb;text-decoration:none}
+  a{color:var(--blue2);text-decoration:none}
   a:hover{text-decoration:underline}
+
+  .resultTitle{font-size:18px;font-weight:900;margin:0}
+  .resultMeta{color:var(--muted);font-size:12.5px;margin-top:6px;line-height:1.35}
+
+  .panel{
+    margin-top:14px;
+    border:1px solid var(--border);
+    background:#fff;
+    border-radius:12px;
+    padding:12px;
+  }
+  .panelTitle{font-weight:900;margin:0 0 8px 0}
+  .grid{
+    display:grid;
+    gap:10px;
+    grid-template-columns: 1fr;
+  }
+  @media(min-width:760px){
+    .grid{grid-template-columns: 1.2fr .8fr;}
+  }
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+  .field input{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    font-size:14px;
+  }
+  .ctaRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .btnPrimary{
+    border:1px solid var(--blue);
+    background:var(--blue);
+    color:#fff;
+    font-weight:900;
+  }
+  .btnSecondary{
+    border:1px solid var(--border);
+    background:#fff;
+    color:var(--text);
+    font-weight:900;
+  }
+  .smallNote{color:var(--muted);font-size:12px;line-height:1.35;margin-top:8px}
+  .toast{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    background:#ecfeff;
+    border:1px solid #a5f3fc;
+    color:#0f172a;
+    display:none;
+    font-size:12.5px;
+  }
+
   .foot{margin-top:10px;color:#777;font-size:11.5px;line-height:1.35}
 </style>
+</head>
 
+<body>
 <div class="wrap">
   <div class="top">
-    <div>
-      <div class="title">NZ Investment & Business Pathway Quiz</div>
-      <div class="sub">
-        Answer a few questions to see whether we can assist with an investment or business-based
-        immigration pathway to New Zealand.
+    <div class="brand">
+      <div class="logoBox" aria-label="Lighthouse Brokers logo">
+        <!-- Inline SVG logo (blue/white) -->
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 21h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M10 21v-3.5c0-.8.7-1.5 1.5-1.5h1c.8 0 1.5.7 1.5 1.5V21" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M9 16l.9-8h4.2l.9 8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 6h4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 3v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M4 8l4-2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M20 8l-4-2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="brandText">
+        <div class="title">Lighthouse Brokers</div>
+        <div class="sub">
+          NZ investment &amp; business pathway quiz (informational only). Answer a few questions to see whether we can assist.
+        </div>
       </div>
     </div>
+
     <div class="pill" id="step">Step 1</div>
   </div>
 
@@ -47,8 +188,8 @@
     <div class="row">
       <div id="meta"></div>
       <div>
-        <button id="back">Back</button>
-        <button id="restart">Restart</button>
+        <button id="back" class="btnSecondary">Back</button>
+        <button id="restart" class="btnSecondary">Restart</button>
       </div>
     </div>
 
@@ -57,48 +198,69 @@
   </div>
 
   <div class="foot">
-    Sources: Immigration New Zealand. This tool is informational only.
+    Sources: Immigration New Zealand. This tool is informational only and not legal advice.
   </div>
 </div>
 
 <script>
+  // =========================
+  // EDIT THESE SETTINGS
+  // =========================
+  const CTA_URL  = "https://www.yoursite.com/book";   // <-- change to your booking/contact URL
+  const CTA_TEXT = "Book a call";
+  const EMAIL_TO = "info@lighthousebrokers.co.nz";    // <-- optional: where enquiries go (used for mailto fallback)
+
+  // =========================
+  // Analytics hook:
+  // - If GA4 is installed, this will call gtag(...)
+  // - Otherwise, it logs to console (safe)
+  // =========================
+  function track(eventName, payload){
+    try{
+      if (typeof window.gtag === "function") {
+        window.gtag("event", eventName, payload || {});
+      } else if (window.dataLayer && typeof window.dataLayer.push === "function") {
+        window.dataLayer.push(Object.assign({event: eventName}, payload || {}));
+      } else {
+        console.log("[analytics]", eventName, payload || {});
+      }
+    } catch(e){
+      // swallow
+    }
+  }
+
+  // =========================
+  // Flow (your logic, UI text only)
+  // =========================
   const N = {
     START:{t:"Are you seeking New Zealand residence via investment or business?",y:"QHealth",n:"OUT"},
-
     QHealth:{t:"Are you in good health?",y:"QPolice",n:"OUT"},
-
     QPolice:{t:"Are you of good character and able to provide a police certificate?",y:"Q55",n:"OUT"},
-
     Q55:{t:"Are you 55 years old or younger at the time of application?",y:"Q500k",n:"Q10M"},
-
     Q500k:{t:"Can you show at least NZD $500,000 to support yourself (and any family included) while running and growing a business in New Zealand?",y:"QBusinessExperience",n:"OUT"},
-
     QBusinessExperience:{t:"Can you demonstrate that you meet the business experience requirements?",y:"QEnglish",n:"OUT"},
-
     QEnglish:{t:"Can you demonstrate that you can speak and understand English?",y:"Q2M",n:"OUT"},
-
     Q2M:{t:"Do you have NZD $2 million or more available to invest?",y:"END_BI2M",n:"Q1M"},
-
     Q1M:{t:"Do you have NZD $1 million or more available to invest?",y:"END_BI1M",n:"END_OTHER"},
-
     Q10M:{t:"Do you have NZD $10 million or more available to invest?",y:"END_AIP10M",n:"Q5M"},
-
     Q5M:{t:"Do you have NZD $5 million or more available to invest?",y:"END_AIP5M",n:"END_OTHER"},
 
-    OUT:{r:1,title:"Not a match at this time",
-      bul:[
-        "Based on your answers, we cannot assist with your immigration path at this time."
-      ],
+    // OUTCOMES
+    OUT:{r:1, eligible:false, pathway:"OUT",
+      title:"Not a match at this time",
+      bul:["Based on your answers, we cannot assist with your immigration path at this time."],
       link:"https://www.immigration.govt.nz/"},
 
-    END_OTHER:{r:1,title:"Other immigration options",
+    END_OTHER:{r:1, eligible:false, pathway:"OTHER",
+      title:"Other immigration options",
       bul:[
         "Based on your answers, our firm may not be the right fit for your circumstances.",
         "There are other immigration options available in New Zealand."
       ],
       link:"https://www.immigration.govt.nz/"},
 
-    END_BI2M:{r:1,title:"Business Investor Visa (NZD $2m)",
+    END_BI2M:{r:1, eligible:true, pathway:"BUSINESS_INVESTOR_2M",
+      title:"Business Investor Visa (NZD $2m)",
       bul:[
         "Age 55 or under at time of application",
         "NZD $2m investment",
@@ -110,7 +272,8 @@
         "Eligible for residence after 12 months (fast-track; 36 months total)"
       ]},
 
-    END_BI1M:{r:1,title:"Business Investor Visa (NZD $1m)",
+    END_BI1M:{r:1, eligible:true, pathway:"BUSINESS_INVESTOR_1M",
+      title:"Business Investor Visa (NZD $1m)",
       bul:[
         "Age 55 or under at time of application",
         "NZD $1m investment",
@@ -122,11 +285,13 @@
         "Eligible for residence after 36 months"
       ]},
 
-    END_AIP10M:{r:1,title:"Active Investor Plus Visa (Balanced Category)",
+    END_AIP10M:{r:1, eligible:true, pathway:"AIP_BALANCED_10M",
+      title:"Active Investor Plus Visa (Balanced Category)",
       bul:["This pathway is governed by Immigration New Zealand policy."],
       link:"https://www.immigration.govt.nz/visas/active-investor-plus-visa/"},
 
-    END_AIP5M:{r:1,title:"Active Investor Plus Visa (Growth Category)",
+    END_AIP5M:{r:1, eligible:true, pathway:"AIP_GROWTH_5M",
+      title:"Active Investor Plus Visa (Growth Category)",
       bul:["This pathway is governed by Immigration New Zealand policy."],
       link:"https://www.immigration.govt.nz/visas/active-investor-plus-visa/"}
   };
@@ -139,11 +304,28 @@
 
   const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
+  function buildSummary(resultNode){
+    const answersText = A.map((x,i)=>`Step ${i+1}: ${x.q} — ${x.a}`).join("\\n");
+    const bullets = (resultNode.bul || []).map(b => "- " + b).join("\\n");
+    return `Lighthouse Brokers — Quiz Summary\\n\\nResult: ${resultNode.title}\\nPathway: ${resultNode.pathway || ""}\\n\\nAnswers:\\n${answersText}\\n\\nResult details:\\n${bullets}\\n`;
+  }
+
+  function showToast(msg){
+    const t = document.getElementById("toast");
+    if(!t) return;
+    t.textContent = msg;
+    t.style.display = "block";
+    setTimeout(()=>{ t.style.display="none"; }, 4500);
+  }
+
   function render(){
-    const n=N[cur]; out.innerHTML=""; trail.innerHTML="";
+    const n=N[cur];
+    out.innerHTML="";
+    trail.innerHTML="";
     step.textContent = n && n.r ? "Result" : ("Step "+Math.max(1,A.length+1));
     back.disabled = H.length===0;
 
+    // show last few answer chips (no internal IDs)
     A.slice(-5).forEach(x=>{
       const d=document.createElement("div");
       d.className="tag";
@@ -151,34 +333,167 @@
       trail.appendChild(d);
     });
 
-    if(!n){ q.textContent="Error"; btns.innerHTML=""; meta.textContent=""; return; }
-
-    if(!n.r){
-      q.textContent=n.t; meta.textContent="Please select yes or no.";
+    if(!n){
+      q.textContent="Error";
       btns.innerHTML="";
-      const y=document.createElement("button"); y.className="yes"; y.textContent="Yes"; y.onclick=()=>go("Yes");
-      const no=document.createElement("button"); no.textContent="No"; no.onclick=()=>go("No");
-      btns.appendChild(y); btns.appendChild(no);
+      meta.textContent="";
       return;
     }
 
-    q.innerHTML="<div style='font-size:17px;font-weight:900'>"+esc(n.title)+"</div>";
+    if(!n.r){
+      q.textContent=n.t;
+      meta.textContent="Please select yes or no.";
+      btns.innerHTML="";
+
+      const y=document.createElement("button");
+      y.className="choice";
+      y.textContent="Yes";
+      y.onclick=()=>{ y.classList.add("active"); go("Yes"); };
+
+      const no=document.createElement("button");
+      no.className="choice";
+      no.textContent="No";
+      no.onclick=()=>{ no.classList.add("active"); go("No"); };
+
+      btns.appendChild(y);
+      btns.appendChild(no);
+      return;
+    }
+
+    // RESULT VIEW
+    q.innerHTML =
+      "<div class='resultTitle'>" + esc(n.title) + "</div>" +
+      "<div class='resultMeta'>Result based on your answers. You can adjust using Back or Restart.</div>";
+
     meta.textContent="";
-    let html="<ul>"+(n.bul||[]).map(b=>"<li>"+esc(b)+"</li>").join("")+"</ul>";
-    if(n.link){ html+="<div style='margin-top:10px;font-size:12px'>More information: <a target=_blank rel=noopener href='"+n.link+"'>Immigration New Zealand</a></div>"; }
-    out.innerHTML=html;
-    btns.innerHTML="";
+
+    // Track pathway result view once per arrival
+    track("quiz_result_view", { pathway: n.pathway || "UNKNOWN", eligible: !!n.eligible });
+
+    let html = "<ul>" + (n.bul||[]).map(b=>"<li>"+esc(b)+"</li>").join("") + "</ul>";
+
+    if(n.link){
+      html += "<div class='smallNote' style='margin-top:10px'>More information: " +
+              "<a target=_blank rel=noopener href='" + n.link + "'>Immigration New Zealand</a></div>";
+    }
+
+    // CTA + email capture only if eligible
+    if(n.eligible){
+      html += `
+      <div class="panel">
+        <div class="panelTitle">Next step</div>
+        <div class="grid">
+          <div>
+            <div style="color:var(--muted);font-size:12.5px;line-height:1.35">
+              If you would like help navigating this pathway, leave your email and we will follow up.
+            </div>
+
+            <div class="ctaRow" style="margin-top:10px">
+              <a href="${CTA_URL}" style="text-decoration:none">
+                <button class="btnPrimary" type="button">${CTA_TEXT}</button>
+              </a>
+              <button class="btnSecondary" id="copyBtn" type="button">Copy summary</button>
+            </div>
+
+            <div class="toast" id="toast"></div>
+          </div>
+
+          <div>
+            <div class="field">
+              <label for="email">Email (for follow-up)</label>
+              <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+            </div>
+            <div class="ctaRow">
+              <button class="btnPrimary" id="submitLead" type="button">Request follow-up</button>
+              <button class="btnSecondary" id="emailLead" type="button">Email us</button>
+            </div>
+            <div class="smallNote">
+              We will only use your email to respond to this request.
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
+    }
+
+    out.innerHTML = html;
+    btns.innerHTML = "";
+
+    // Wire up result actions (only if eligible)
+    if(n.eligible){
+      const summary = buildSummary(n);
+
+      const copyBtn = document.getElementById("copyBtn");
+      if(copyBtn){
+        copyBtn.onclick = async () => {
+          try{
+            await navigator.clipboard.writeText(summary);
+            showToast("Summary copied to clipboard.");
+            track("quiz_copy_summary", { pathway: n.pathway || "UNKNOWN" });
+          }catch(e){
+            showToast("Could not copy automatically. You can select and copy manually.");
+          }
+        };
+      }
+
+      const submitBtn = document.getElementById("submitLead");
+      const emailInput = document.getElementById("email");
+      if(submitBtn && emailInput){
+        submitBtn.onclick = () => {
+          const email = (emailInput.value || "").trim();
+          const ok = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+          if(!ok){
+            showToast("Please enter a valid email address.");
+            return;
+          }
+
+          // Store locally (simple, no backend)
+          try{
+            localStorage.setItem("lh_lead_email", email);
+            localStorage.setItem("lh_lead_pathway", n.pathway || "");
+            localStorage.setItem("lh_lead_time", new Date().toISOString());
+          }catch(e){}
+
+          showToast("Thanks — your request has been recorded on this device. (To actually receive it, use “Email us” or connect a form endpoint.)");
+          track("quiz_lead_captured", { pathway: n.pathway || "UNKNOWN" });
+        };
+      }
+
+      const emailLeadBtn = document.getElementById("emailLead");
+      if(emailLeadBtn){
+        emailLeadBtn.onclick = () => {
+          const email = document.getElementById("email") ? (document.getElementById("email").value || "").trim() : "";
+          const subject = encodeURIComponent("Lighthouse Brokers — Immigration quiz follow-up request");
+          const body = encodeURIComponent((email ? ("Client email: " + email + "\\n\\n") : "") + summary);
+          const mailto = `mailto:${encodeURIComponent(EMAIL_TO)}?subject=${subject}&body=${body}`;
+          window.location.href = mailto;
+          track("quiz_email_us_clicked", { pathway: n.pathway || "UNKNOWN" });
+        };
+      }
+    }
   }
 
   function go(ans){
-    const n=N[cur]; if(!n||n.r) return;
-    H.push(cur); A.push({a:ans});
+    const n=N[cur];
+    if(!n || n.r) return;
+
+    H.push(cur);
+    A.push({ q: n.t, a: ans });
+
+    // Track per-answer (optional)
+    track("quiz_answer", { answer: ans });
+
     cur = ans==="Yes" ? n.y : n.n;
     render();
   }
 
   back.onclick=()=>{ if(!H.length) return; cur=H.pop(); A.pop(); render(); };
   restart.onclick=()=>{ cur="START"; H=[]; A=[]; render(); };
+
+  // Track first load
+  track("quiz_view", { page: "lighthouse_quiz" });
+
   render();
 </script>
+</body>
 </html>
