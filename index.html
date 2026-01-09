@@ -9,10 +9,10 @@
   .wrap{max-width:860px;margin:0 auto;padding:18px}
   .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
   .title{font-weight:900;font-size:18px}
-  .sub{color:#666;font-size:12.5px;margin-top:6px;line-height:1.3}
+  .sub{color:#666;font-size:12.5px;margin-top:6px;line-height:1.35}
   .pill{border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;color:#666;font-size:12px;white-space:nowrap}
   .card{border:1px solid #e5e7eb;background:#f7f8fb;border-radius:14px;padding:16px}
-  #q{font-size:17px;font-weight:800;line-height:1.3;margin:0 0 12px 0}
+  #q{font-size:17px;font-weight:800;line-height:1.35;margin:0 0 12px 0}
   #btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
   button{padding:12px 14px;border-radius:10px;border:1px solid #d1d5db;background:#fff;cursor:pointer;font-weight:800;min-width:120px}
   .yes{border-color:#111;background:#111;color:#fff}
@@ -32,7 +32,10 @@
   <div class="top">
     <div>
       <div class="title">NZ Investment & Business Pathway Quiz</div>
-      <div class="sub">Interactive decision tree based on your provided logic. Informational only.</div>
+      <div class="sub">
+        Answer a few questions to see whether we can assist with an investment or business-based
+        immigration pathway to New Zealand.
+      </div>
     </div>
     <div class="pill" id="step">Step 1</div>
   </div>
@@ -54,44 +57,77 @@
   </div>
 
   <div class="foot">
-    Sources: Immigration New Zealand (Active Investor Plus) and general INZ visa information.
+    Sources: Immigration New Zealand. This tool is informational only.
   </div>
 </div>
 
 <script>
   const N = {
-    START:{t:"Q1: Are you seeking NZ residence via investment or business?",y:"QHealth",n:"OUT"},
-    QHealth:{t:"QHealth: Are you in good health?",y:"QPolice",n:"OUT"},
-    QPolice:{t:"QPolice: Are you in good character and can you fill out a police certificate?",y:"Q55",n:"OUT"},
-    Q55:{t:"Q55: Are you 55 or younger at time of application?",y:"Q500k",n:"Q10M"},
-    Q500k:{t:"Q500k: Can you show you have at least NZD $500,000 to support yourself (and your family if you are including them) while running and growing your business?",y:"QBusinessExperience",n:"OUT"},
-    QBusinessExperience:{t:"QBusinessExperience: Can you show that you meet business experience requirements?",y:"QEnglish",n:"OUT"},
-    QEnglish:{t:"QEnglish: Can you show you can speak and understand English?",y:"Q2M",n:"OUT"},
-    Q2M:{t:"Q2M: Do you have NZD $2m+ to invest?",y:"END_BI2M",n:"Q1M"},
-    Q1M:{t:"Q1M: Do you have NZD $1m+ to invest?",y:"END_BI1M",n:"END_OTHER"},
-    Q10M:{t:"Q10M: Do you have NZD $10m+ to invest?",y:"END_AIP10M",n:"Q5M"},
-    Q5M:{t:"Q5M: Do you have NZD $5m+ to invest?",y:"END_AIP5M",n:"END_OTHER"},
+    START:{t:"Are you seeking New Zealand residence via investment or business?",y:"QHealth",n:"OUT"},
 
-    OUT:{r:1,title:"OUT: Not eligible via this decision tree",
-      bul:["Based on your answers, this decision tree does not identify a match.","You may still have other options depending on your circumstances."],
+    QHealth:{t:"Are you in good health?",y:"QPolice",n:"OUT"},
+
+    QPolice:{t:"Are you of good character and able to provide a police certificate?",y:"Q55",n:"OUT"},
+
+    Q55:{t:"Are you 55 years old or younger at the time of application?",y:"Q500k",n:"Q10M"},
+
+    Q500k:{t:"Can you show at least NZD $500,000 to support yourself (and any family included) while running and growing a business in New Zealand?",y:"QBusinessExperience",n:"OUT"},
+
+    QBusinessExperience:{t:"Can you demonstrate that you meet the business experience requirements?",y:"QEnglish",n:"OUT"},
+
+    QEnglish:{t:"Can you demonstrate that you can speak and understand English?",y:"Q2M",n:"OUT"},
+
+    Q2M:{t:"Do you have NZD $2 million or more available to invest?",y:"END_BI2M",n:"Q1M"},
+
+    Q1M:{t:"Do you have NZD $1 million or more available to invest?",y:"END_BI1M",n:"END_OTHER"},
+
+    Q10M:{t:"Do you have NZD $10 million or more available to invest?",y:"END_AIP10M",n:"Q5M"},
+
+    Q5M:{t:"Do you have NZD $5 million or more available to invest?",y:"END_AIP5M",n:"END_OTHER"},
+
+    OUT:{r:1,title:"Not a match at this time",
+      bul:[
+        "Based on your answers, we cannot assist with your immigration path at this time."
+      ],
       link:"https://www.immigration.govt.nz/"},
 
-    END_OTHER:{r:1,title:"Other Options",
-      bul:["There are other options to immigrate, which can be found here:"],
+    END_OTHER:{r:1,title:"Other immigration options",
+      bul:[
+        "Based on your answers, our firm may not be the right fit for your circumstances.",
+        "There are other immigration options available in New Zealand."
+      ],
       link:"https://www.immigration.govt.nz/"},
 
-    END_BI2M:{r:1,title:"Business Investor (NZD $2m)",
-      bul:["Age ≤55","$2m investment","Established business, 5 employees","English, health, character","Day to day operations (active involvement)","Greater than 50% of time in NZ","Cost $12,380","Resident visa after 12 months FAST TRACK (36 months total)"]},
+    END_BI2M:{r:1,title:"Business Investor Visa (NZD $2m)",
+      bul:[
+        "Age 55 or under at time of application",
+        "NZD $2m investment",
+        "Established business with at least 5 employees",
+        "Active, day-to-day involvement required",
+        "More than 50% of your time spent in New Zealand",
+        "English, health, and character requirements apply",
+        "Indicative cost: NZD $12,380",
+        "Eligible for residence after 12 months (fast-track; 36 months total)"
+      ]},
 
-    END_BI1M:{r:1,title:"Business Investor (NZD $1m)",
-      bul:["Age ≤55","$1m investment","Established business, 5 employees","English, health, character","Day to day operations (active involvement)","Greater than 50% of time in NZ","Cost $12,380","Resident visa after 36 months"]},
+    END_BI1M:{r:1,title:"Business Investor Visa (NZD $1m)",
+      bul:[
+        "Age 55 or under at time of application",
+        "NZD $1m investment",
+        "Established business with at least 5 employees",
+        "Active, day-to-day involvement required",
+        "More than 50% of your time spent in New Zealand",
+        "English, health, and character requirements apply",
+        "Indicative cost: NZD $12,380",
+        "Eligible for residence after 36 months"
+      ]},
 
-    END_AIP10M:{r:1,title:"Active Investor Plus (Balanced Category)",
-      bul:["See official requirements here:"],
+    END_AIP10M:{r:1,title:"Active Investor Plus Visa (Balanced Category)",
+      bul:["This pathway is governed by Immigration New Zealand policy."],
       link:"https://www.immigration.govt.nz/visas/active-investor-plus-visa/"},
 
-    END_AIP5M:{r:1,title:"Active Investor Plus (Growth Category)",
-      bul:["See official requirements here:"],
+    END_AIP5M:{r:1,title:"Active Investor Plus Visa (Growth Category)",
+      bul:["This pathway is governed by Immigration New Zealand policy."],
       link:"https://www.immigration.govt.nz/visas/active-investor-plus-visa/"}
   };
 
@@ -102,39 +138,45 @@
         back=document.getElementById("back"), restart=document.getElementById("restart");
 
   const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
   function render(){
     const n=N[cur]; out.innerHTML=""; trail.innerHTML="";
     step.textContent = n && n.r ? "Result" : ("Step "+Math.max(1,A.length+1));
     back.disabled = H.length===0;
 
-    A.slice(-6).forEach(x=>{
-      const d=document.createElement("div"); d.className="tag"; d.textContent=x.k+": "+x.a; trail.appendChild(d);
+    A.slice(-5).forEach(x=>{
+      const d=document.createElement("div");
+      d.className="tag";
+      d.textContent = x.a;
+      trail.appendChild(d);
     });
 
-    if(!n){ q.textContent="Missing node: "+cur; btns.innerHTML=""; meta.textContent=""; return; }
+    if(!n){ q.textContent="Error"; btns.innerHTML=""; meta.textContent=""; return; }
 
     if(!n.r){
-      q.textContent=n.t; meta.textContent="Choose YES or NO to continue.";
+      q.textContent=n.t; meta.textContent="Please select yes or no.";
       btns.innerHTML="";
-      const y=document.createElement("button"); y.className="yes"; y.textContent="YES"; y.onclick=()=>go("YES");
-      const no=document.createElement("button"); no.textContent="NO"; no.onclick=()=>go("NO");
+      const y=document.createElement("button"); y.className="yes"; y.textContent="Yes"; y.onclick=()=>go("Yes");
+      const no=document.createElement("button"); no.textContent="No"; no.onclick=()=>go("No");
       btns.appendChild(y); btns.appendChild(no);
       return;
     }
 
     q.innerHTML="<div style='font-size:17px;font-weight:900'>"+esc(n.title)+"</div>";
-    meta.textContent="You reached an end point.";
+    meta.textContent="";
     let html="<ul>"+(n.bul||[]).map(b=>"<li>"+esc(b)+"</li>").join("")+"</ul>";
-    if(n.link){ html+="<div style='margin-top:10px;font-size:12px;color:#666'>Link: <a target=_blank rel=noopener href='"+n.link+"'>"+n.link+"</a></div>"; }
+    if(n.link){ html+="<div style='margin-top:10px;font-size:12px'>More information: <a target=_blank rel=noopener href='"+n.link+"'>Immigration New Zealand</a></div>"; }
     out.innerHTML=html;
     btns.innerHTML="";
   }
+
   function go(ans){
     const n=N[cur]; if(!n||n.r) return;
-    H.push(cur); A.push({k:cur,a:ans});
-    cur = ans==="YES" ? n.y : n.n;
+    H.push(cur); A.push({a:ans});
+    cur = ans==="Yes" ? n.y : n.n;
     render();
   }
+
   back.onclick=()=>{ if(!H.length) return; cur=H.pop(); A.pop(); render(); };
   restart.onclick=()=>{ cur="START"; H=[]; A=[]; render(); };
   render();
